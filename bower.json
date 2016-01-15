@@ -1,0 +1,22 @@
+{
+  "name": "nodepoly",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Jon Wiedmann <jonwiedmann@gmail.com>"
+  ],
+  "license": "MIT",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.2.0",
+    "paper-button": "PolymerElements/paper-button#~1.0.11"
+  }
+}
