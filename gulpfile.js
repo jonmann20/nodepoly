@@ -3,6 +3,6 @@
 let gulp = require('gulp');
 let server = require('gulp-express');
 
-gulp.task('server', () => {
+gulp.task('default', () => {
 	server.run(['main.js']);
 });

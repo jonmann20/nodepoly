@@ -1,21 +1,52 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>nodepoly</title>
+	<title>Node & Polymer Demo</title>
 	<style>
 
 	</style>
+
+	<script src="bower_components/page/page.js"></script>
 	<script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+
+	<!-- Iron imports -->
+	<link rel="import" href="bower_components/iron-icons/iron-icons.html">
+	<link rel="import" href="bower_components/iron-pages/iron-pages.html">
+
+	<!-- Paper imports -->
 	<link rel="import" href="bower_components/paper-button/paper-button.html">
+	<link rel="import" href="bower_components/paper-toolbar/paper-toolbar.html">
+	<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
+	<link rel="import" href="bower_components/paper-input/paper-input.html">
+	<link rel="import" href="bower_components/paper-checkbox/paper-checkbox.html">
+	<link rel="import" href="bower_components/paper-menu-button/paper-menu-button.html">
 </head>
 <body>
-	<h1>Home - nodepoly</h1>
-	<h2>{{subtitle}}</h2>
+	<paper-toolbar>
+		<paper-icon-button icon="menu"></paper-icon-button>
+		<span class="title">Home</span>
+		<span>Node &amp; Polymer Demo</span>
+	</paper-toolbar>
 
-	<h3>Car horsepower: {{hp}}</h3>
+	<ul>
+		<li><a href="/">Home</a></li>
+		<li><a href="/away">Away</a></li>
+	</ul>
 
-	<paper-button raised>raised</paper-button>
+	<iron-pages	attr-for-selected="data-route" selected="/">
+		<section data-route="/">
+			<paper-input label="Car horsepower" value="{{car.hp}}"></paper-input>
+			<paper-checkbox checked="{{car.isSportModel}}" disabled>Sport Model</paper-checkbox>
 
+			<paper-button raised>Submit</paper-button>
+		</section>
+		<section data-route="/away">
+			<!-- TODO: load via AJAX -->
+			<h1>Away</h1>
+		</section>
+	</iron-pages>
+
+	<script src="js/router.js"></script>
 	<script>
 
 	</script>

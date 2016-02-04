@@ -5,20 +5,9 @@ class Car {
 		this.hp = horsePower;
 	}
 
-	getHp() {
-		return this.hp;
-	}
+	get isSportModel() {
+    	return this.hp > 300;
+  	}
 }
 
 module.exports = Car;
-
-/*
- * negatives compared to dart:
- *
- * 1) use strict
- * 2) module.exports
- * 3) constructor
- * 4) no private properties
- * 5) this
- * 6) no static types
- */

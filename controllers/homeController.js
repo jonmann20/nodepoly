@@ -9,11 +9,10 @@ class HomeController {
 	}
 
 	render() {
-		let car = new Car(12);
+		let car = new Car(335);
 
 		this.res.render('index', {
-			subtitle: 'my sub',
-			hp: car.getHp()
+			car: car
 		});
 	}
 }
