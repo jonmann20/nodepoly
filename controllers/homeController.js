@@ -11,7 +11,7 @@ class HomeController {
 	render() {
 		let car = new Car(335);
 
-		this.res.render('index', {
+		this.res.render('index.html', {
 			car: car
 		});
 	}

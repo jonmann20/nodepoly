@@ -1,14 +1,16 @@
 'use strict';
 
-var pages = document.querySelector('iron-pages');
+var app = document.querySelector('#app');
 
+// routing
 page('/', () => {
-	pages.select('/');
+	app.title = 'Home';
+	app.route = 'home';
 });
 
 page('/away', () => {
-	console.log('away');
-	pages.select('/away');
+	app.title = 'Away';
+	app.route = 'away';
 });
 
 page();

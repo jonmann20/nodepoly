@@ -1,0 +1,13 @@
+paper-tabs {
+	width: 300px;
+}
+
+paper-tab[link] a {
+	/* These mixins (from iron-flex-layout) center the link text.
+	@apply(--layout-horizontal);
+	@apply(--layout-center-center);
+	*/
+	text-align: center;
+	color: #fff;
+	text-decoration: none;
+}
