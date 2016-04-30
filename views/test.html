@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Node & Polymer Demo</title>
+
+	<link rel="stylesheet" href="scss/style.css">
+
+	<script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+
+	<!-- Iron imports -->
+	<link rel="import" href="bower_components/iron-icons/iron-icons.html">
+	<link rel="import" href="bower_components/iron-pages/iron-pages.html">
+	<link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
+
+	<!-- Paper imports -->
+	<link rel="import" href="bower_components/paper-button/paper-button.html">
+	<link rel="import" href="bower_components/paper-toolbar/paper-toolbar.html">
+	<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
+	<link rel="import" href="bower_components/paper-input/paper-input.html">
+	<link rel="import" href="bower_components/paper-checkbox/paper-checkbox.html">
+	<link rel="import" href="bower_components/paper-menu-button/paper-menu-button.html">
+	<link rel="import" href="bower_components/paper-menu/paper-menu.html">
+	<link rel="import" href="bower_components/paper-item/paper-item.html">
+	<link rel="import" href="bower_components/paper-tabs/paper-tabs.html">
+
+	<!-- Custom imports -->
+	<link rel="import" href="elts/car-data.html">
+</head>
+<body>
+	<template is="dom-bind" id="app">
+		<paper-toolbar class="tall">
+			<span class="title">Node + Polymer Demo</span>
+			<paper-tabs attr-for-selected="data-route" selected="{{route}}" class="bottom self-end">
+				<paper-tab data-route="home" link><a href="/">Home</a></paper-tab>
+				<paper-tab data-route="away" link><a href="/away">Away</a></paper-tab>
+			</paper-tabs>
+		</paper-toolbar>
+
+		<car-data car="{{car}}"></car-data>
+
+		<iron-pages	attr-for-selected="data-route" selected="{{route}}">
+			<!-- TODO: load via AJAX -->
+
+			<section data-route="home">
+				<h1>Home</h1>
+
+				<paper-input label="Car horsepower" value="{{car.hp}}"></paper-input>
+				<paper-checkbox checked="{{car.isSportModel}}" disabled>Sport Model</paper-checkbox>
+				<paper-button raised>Submit</paper-button>
+			</section>
+			<section data-route="away">
+				<h1>Away</h1>
+			</section>
+		</iron-pages>
+	</template>
+
+	<script src="bower_components/page/page.js"></script>
+	<script src="js/router.js"></script>
+	<script src="js/controllers/homeController.js"></script>
+
+	<load-car></load-car>
+	<dom-module id="load-car">
+		<template>
+			<iron-ajax
+				auto
+				url="/car"
+				handle-as="json"
+				on-response="handleResponse"
+				debounce-duration="300"></iron-ajax>
+		</template>
+
+		<script>
+			Polymer({
+				is: 'load-car',
+				handleResponse: function(request) {
+					//var home = new HomeController();
+					HomeController.setCar(request.detail.response);
+				}
+			});
+		</script>
+	</dom-module>
+</body>
+</html>

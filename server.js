@@ -13,8 +13,12 @@ server.get('/car', (reg, res) => {
 	});
 });
 
-server.get('*', (req, res) => {
+server.get('/', (req, res) => {
 	res.sendFile(__dirname + '/views/index.html');
+});
+
+server.get('/test', (req, res) => {
+	res.sendFile(__dirname + '/views/test.html');
 });
 
 //server.set('view engine', '.hbs');
