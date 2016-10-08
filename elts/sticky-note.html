@@ -99,7 +99,11 @@
 			},
 
 			detached: function() {
-				console.log(this.localName + '#' + this.id + ' was detached');
+				//console.log(this.localName + '#' + this.id + ' was detached');
+				// TODO: have parent observe for detached, rather than pub-sub
+
+				// assumes sticky-note id="n#"
+				this.fire('sticky-note-destroyed', this.id.substring(1));
 			},
 
 			listeners: {
@@ -110,20 +114,7 @@
 				if(e.target.tagName === 'PAPER-BUTTON') {
 					let stickyNote = e.target.parentElement.parentElement.parentElement;
 					stickyNote.className = 'hidden';
-
-					setTimeout(() => {
-						// let noteId = parseInt(stickyNote.id);
-						// let notesIdx;
-						// app.notes.forEach(note => {
-						// 	if(note.id === noteId) {
-						// 		notesIdx = note.id;
-						// 		return;
-						// 	}
-						// });
-
-						// app.notes.splice(notesIdx, 1);
-						stickyNote.remove();
-					}, 525);
+					setTimeout(() => stickyNote.remove(), 525);
 				}
 			}
 		});

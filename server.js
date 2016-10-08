@@ -17,17 +17,9 @@ server.get('/', (req, res) => {
 	res.sendFile(__dirname + '/views/index.html');
 });
 
-// server.get('/test', (req, res) => {
-// 	res.sendFile(__dirname + '/views/test.html');
-// });
-
-// server.get('/swindex.html', (req, res) => {
-// 	res.sendFile(__dirname + '/views/swindex.html');
-// });
-
-// server.get('/swabout.html', (req, res) => {
-// 	res.sendFile(__dirname + '/views/swabout.html');
-// });
+server.get('/test', (req, res) => {
+	res.sendFile(__dirname + '/views/test.html');
+});
 
 // res.set('Content-Type', 'text/html');
 // const htmlHead = '<html><head><title>Streaming test</title></head><body>';

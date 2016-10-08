@@ -6,67 +6,29 @@
 
 	<script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 	<link rel="import" href="bower_components/paper-badge/paper-badge.html">
-	<link rel="import" href="elts/sticky-note.html">
+	<link rel="import" href="elts/sticky-notes.html">
 </head>
 <body>
-	<template is="dom-bind" id="app">
-		<header>
-			<nav>
-				Wellness Wall <paper-badge label="{{notes.length}}"></paper-badge>
-			</nav>
-		</header>
-		<main>
-			<template is="dom-repeat" items="{{notes}}" as="note">
-				<sticky-note id="{{note.id}}" title="{{note.title}}" answer-positive="{{note.answerPositive}}" answer-negative="{{note.answerNegative}}"></sticky-note>
-			</template>
-		</main>
-	</template>
-
-	<!--mock data-->
-	<notes-data></notes-data>
-	<dom-module id="notes-data">
-		<script>
-			Polymer({
-				is: 'notes-data',
-				ready: () => {
-					app.notes = [
-						{
-							id: 0,
-							title: 'Have you visited your primary care physician?'
-						},
-						{
-							id: 1,
-							title: 'Have you taken your medication this morning?'
-						},
-						{
-							id: 2,
-							title: 'How many drinks have you had in the last week?',
-							answerPositive: '0-3',
-							answerNegative: '3+'
-						}
-					];
-				}
-			});
-		</script>
-	</dom-module>
+	<header>
+		<nav>
+			Wellness Wall <paper-badge></paper-badge>
+		</nav>
+	</header>
+	<main>
+		<sticky-notes></sticky-notes>
+	</main>
 
 	<script>
 		window.addEventListener('WebComponentsReady', function(e) {
-			let note0 = document.getElementById('0');
-			console.log(note0.detached);
-		});
+			let paperBadge = document.querySelector('paper-badge');
+			let stickyNotes = document.querySelector('sticky-notes');
 
-		//let domApp = document.querySelector('#app');
-		//console.log(Polymer.shadowRoot.querySelectorAll('sticky-note'));
-		//app.addEventListener('dom-change', () => {
-			//console.log('hi');
-		//});
-		//for(let note of app.notes) {
-		//	console.log(note);
-			// note.addEventListener('detached', () => {
-			// 	console.log('XXX detached');
-			// });
-		//}
+			paperBadge.setAttribute('label', stickyNotes.notes.length);
+
+			stickyNotes.addEventListener('sticky-notes-changed', e => {
+				paperBadge.setAttribute('label', stickyNotes.notes.length);
+			});
+		});
 	</script>
 </body>
 </html>
