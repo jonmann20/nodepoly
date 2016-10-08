@@ -17,9 +17,32 @@ server.get('/', (req, res) => {
 	res.sendFile(__dirname + '/views/index.html');
 });
 
-server.get('/test', (req, res) => {
-	res.sendFile(__dirname + '/views/test.html');
-});
+// server.get('/test', (req, res) => {
+// 	res.sendFile(__dirname + '/views/test.html');
+// });
+
+// server.get('/swindex.html', (req, res) => {
+// 	res.sendFile(__dirname + '/views/swindex.html');
+// });
+
+// server.get('/swabout.html', (req, res) => {
+// 	res.sendFile(__dirname + '/views/swabout.html');
+// });
+
+// res.set('Content-Type', 'text/html');
+// const htmlHead = '<html><head><title>Streaming test</title></head><body>';
+// res.write(htmlHead);
+// res.flush();
+
+// const htmlBody = '<h1>Streaming test</h1>';
+// res.write(htmlBody);
+// res.flush();
+
+// const htmlFoot = '</body></html>';
+// res.write(htmlFoot);
+// res.flush();
+// res.end();
+
 
 //server.set('view engine', '.hbs');
 //server.set('views', __dirname + '/views');

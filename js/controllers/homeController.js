@@ -1,6 +1,3 @@
-/*
- *
- */
 window.HomeController = (() => {
 	return {
 		init: function() {

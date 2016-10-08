@@ -72,34 +72,56 @@
 			<h1 class="title">{{title}}</h1>
 
 			<div class="button-wrap">
-				<paper-button raised>{{answerPositive}}</paper-button>
-				<paper-button raised>{{answerNegative}}</paper-button>
+				<paper-button raised>{{_answerPositive}}</paper-button>
+				<paper-button raised>{{_answerNegative}}</paper-button>
 			</div>
 		</div>
 	</template>
 	<script>
 		Polymer({
 			is: 'sticky-note',
+
 			properties: {
 				title: String,
 				answerPositive: {
 					type: String,
-					value: 'Yes'
+					notify: true
 				},
 				answerNegative: {
-					type: String,
-					value: 'No'
+					type: String
 				}
 			},
+
+			ready: function() {
+				// NOTE: using the default property value could not handle empty strings e.g. foo=""
+				this._answerPositive = (typeof(this.answerPositive) === 'undefined') ? 'Yes' : this.answerPositive;
+				this._answerNegative = (typeof(this.answerNegative) === 'undefined') ? 'No' : this.answerNegative;
+			},
+
+			detached: function() {
+				console.log(this.localName + '#' + this.id + ' was detached');
+			},
+
 			listeners: {
 				'tap': 'hide'
 			},
+
 			hide: (e, obj) => {
 				if(e.target.tagName === 'PAPER-BUTTON') {
 					let stickyNote = e.target.parentElement.parentElement.parentElement;
 					stickyNote.className = 'hidden';
 
 					setTimeout(() => {
+						// let noteId = parseInt(stickyNote.id);
+						// let notesIdx;
+						// app.notes.forEach(note => {
+						// 	if(note.id === noteId) {
+						// 		notesIdx = note.id;
+						// 		return;
+						// 	}
+						// });
+
+						// app.notes.splice(notesIdx, 1);
 						stickyNote.remove();
 					}, 525);
 				}
