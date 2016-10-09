@@ -17,6 +17,11 @@ server.get('/', (req, res) => {
 	res.sendFile(__dirname + '/views/index.html');
 });
 
+server.get('/notes', (req, res) => {
+	res.sendFile(__dirname + '/views/notes.html');
+});
+
+
 server.get('/test', (req, res) => {
 	res.sendFile(__dirname + '/views/test.html');
 });

@@ -2,59 +2,58 @@
 <link rel="import" href="sticky-note.html">
 
 <dom-module id="sticky-notes">
-	<template>
-		<template is="dom-repeat" items="{{notes}}" as="note">
-			<sticky-note id="n{{note.id}}" title="{{note.title}}" answer-positive="{{note.answerPositive}}" answer-negative="{{note.answerNegative}}"></sticky-note>
-		</template>
-	</template>
 	<script>
 		Polymer({
 			is: 'sticky-notes',
+			properties: {
+				notes: {
+					type: Array,
+					value: () => []
+				}
+			},
 
 			ready: function() {
-				this.notes = [
+				const notesData = [
 					{
-						id: 0,
+						id: 'n0',
 						title: 'Have you visited your primary care physician?'
 					},
 					{
-						id: 1,
+						id: 'n1',
 						title: 'Have you taken your medication this morning?'
 					},
 					{
-						id: 2,
+						id: 'n2',
 						title: 'How many drinks have you had in the last week?',
 						answerPositive: '0-3',
 						answerNegative: '3+'
 					}
 				];
 
-				// TODO: observeNodes ==> stickyNote.detached
-				this.async(() => {
-					let stickyNotes = document.querySelectorAll('sticky-note');
-					for(let note of stickyNotes) {
-						note.addEventListener('sticky-note-destroyed', e => {
-							this.removeNote(parseInt(e.detail));
-						});
-					}
-				});
+				notesData.forEach(data => this.addNote(new StickyNote(data)));
+
+				// TODO: Use the built in polymer observeNodes on notes
+				// or listen for stickyNote.detached rather than pub-sub w/ids
 			},
 
-			removeNote: function(id) {
+			addNote: function(note) {
+				this.push('notes', note);
+				this.listen(note, 'sticky-note-removed', 'removeNote')
+				Polymer.dom(this.root).appendChild(note);
+			},
+
+			removeNote: function(e) {
+				const id = e.detail;
+
 				this.notes.forEach((note, i) => {
 					if(note.id === id) {
-						//console.log('removing', note);
-				 		this.notes.splice(i, 1);
-
-				 		// TODO: remove event listener
-
-				 		return;
+						this.unlisten(note, 'sticky-note-removed', 'removeNote');
+						this.splice('notes', i, 1);
+						this.fire('sticky-notes-changed');
+						return;
 					}
 				});
-
-				//console.log(this.notes);
-				this.fire('sticky-notes-changed');
 			}
 		});
-  </script>
+	</script>
 </dom-module>
