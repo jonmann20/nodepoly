@@ -1,0 +1,62 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-badge/paper-badge.html">
+<link rel="import" href="sticky-notes.html">
+
+<dom-module id="note-app">
+	<template>
+		<style>
+			header {
+				padding: 20px;
+				background: #1fc1d1;
+				color: #fff;
+				font-family: sans-serif;
+				box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.18);
+			}
+
+			nav {
+				display: inline-block;
+			}
+
+			main {
+				padding: 20px 20px 40px;
+			}
+
+			paper-button {
+				background: rgba(255, 255, 255, 0.15) !important;
+				color: #333;
+			}
+
+			paper-badge {
+				margin-left: 20px;
+			}
+
+			.paper-badge {
+				background: #003146 !important; /* TODO: use --paper-badge-background */
+			}
+		</style>
+		<header>
+			<nav>
+				Wellness Wall <paper-badge></paper-badge>
+			</nav>
+		</header>
+		<main>
+			<sticky-notes></sticky-notes>
+		</main>
+	</template>
+	<script>
+		Polymer({
+			is: 'note-app',
+
+			ready: function() {
+				let paperBadge = document.querySelector('paper-badge');
+				let stickyNotes = document.querySelector('sticky-notes');
+
+				paperBadge.setAttribute('label', stickyNotes.notes.length);
+
+				stickyNotes.addEventListener('sticky-notes-changed', e => {
+					paperBadge.setAttribute('label', stickyNotes.notes.length);
+				});
+			}
+		});
+ 	</script>
+</dom-module>

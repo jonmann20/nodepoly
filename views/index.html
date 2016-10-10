@@ -1,34 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Index</title>
-	<link rel="stylesheet" href="scss/sticky-note-demo.css">
-
-	<script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-	<link rel="import" href="bower_components/paper-badge/paper-badge.html">
-	<link rel="import" href="elts/sticky-notes.html">
+	<title>Note App</title>
+	<style>
+		body {
+			background: #eee;
+			padding: 0;
+			margin: 0;
+		}
+	</style>
+	<link rel="import" href="elts/note-app.html">
 </head>
 <body>
-	<header>
-		<nav>
-			Wellness Wall <paper-badge></paper-badge>
-		</nav>
-	</header>
-	<main>
-		<sticky-notes></sticky-notes>
-	</main>
-
-	<script>
-		window.addEventListener('WebComponentsReady', e => {
-			let paperBadge = document.querySelector('paper-badge');
-			let stickyNotes = document.querySelector('sticky-notes');
-
-			paperBadge.setAttribute('label', stickyNotes.notes.length);
-
-			stickyNotes.addEventListener('sticky-notes-changed', e => {
-				paperBadge.setAttribute('label', stickyNotes.notes.length);
-			});
-		});
-	</script>
+	<note-app></note-app>
 </body>
 </html>

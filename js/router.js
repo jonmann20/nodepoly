@@ -1,6 +1,6 @@
 'use strict';
 
-var app = document.querySelector('#app');
+let app = document.querySelector('#app');
 
 // routing
 page('/', () => {

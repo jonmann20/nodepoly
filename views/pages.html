@@ -3,9 +3,21 @@
 <head>
 	<title>Node & Polymer Demo</title>
 
-	<link rel="stylesheet" href="scss/style.css">
+	<style>
+		paper-tabs {
+			width: 300px;
+		}
 
-	<script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+		paper-tab[link] a {
+			/* These mixins (from iron-flex-layout) center the link text.
+			@apply(--layout-horizontal);
+			@apply(--layout-center-center);
+			*/
+			text-align: center;
+			color: #fff;
+			text-decoration: none;
+		}
+	</style>
 
 	<!-- Iron imports -->
 	<link rel="import" href="bower_components/iron-icons/iron-icons.html">
@@ -56,7 +68,6 @@
 
 	<script src="bower_components/page/page.js"></script>
 	<script src="js/router.js"></script>
-	<script src="js/controllers/homeController.js"></script>
 
 	<load-car></load-car>
 	<dom-module id="load-car">
@@ -73,11 +84,40 @@
 			Polymer({
 				is: 'load-car',
 				handleResponse: function(request) {
-					//var home = new HomeController();
-					HomeController.setCar(request.detail.response);
+					app.car = request.detail.response;
 				}
 			});
 		</script>
 	</dom-module>
+
+
+
+	<!--mock data-->
+	<!--<notes-data></notes-data>-->
+	<!--<dom-module id="notes-data">-->
+	<!--	<script>-->
+	<!--		Polymer({-->
+	<!--			is: 'notes-data',-->
+	<!--			ready: () => {-->
+	<!--				app.notes = [-->
+	<!--					{-->
+	<!--						id: 0,-->
+	<!--						title: 'Have you visited your primary care physician?'-->
+	<!--					},-->
+	<!--					{-->
+	<!--						id: 1,-->
+	<!--						title: 'Have you taken your medication this morning?'-->
+	<!--					},-->
+	<!--					{-->
+	<!--						id: 2,-->
+	<!--						title: 'How many drinks have you had in the last week?',-->
+	<!--						answerPositive: '0-3',-->
+	<!--						answerNegative: '3+'-->
+	<!--					}-->
+	<!--				];-->
+	<!--			}-->
+	<!--		});-->
+	<!--	</script>-->
+	<!--</dom-module>-->
 </body>
 </html>
