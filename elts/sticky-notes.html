@@ -42,9 +42,7 @@
 				Polymer.dom(this.root).appendChild(note);
 			},
 
-			removeNote: function(e) {
-				const id = e.detail;
-
+			removeNote: function(e, id) {
 				this.notes.forEach((note, i) => {
 					if(note.id === id) {
 						this.unlisten(note, 'sticky-note-removed', 'removeNote');
