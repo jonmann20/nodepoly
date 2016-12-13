@@ -136,9 +136,8 @@
 		<a class="close">X</a>
 	</template>
 	<script>
-		let aside, main;
+		let main;
 		requestAnimationFrame(() => {
-			aside = document.querySelector('aside').getBoundingClientRect();
 			main = document.querySelector('main').getBoundingClientRect();
 		});
 
@@ -190,7 +189,7 @@
 				const scaleH = firstBg.height / lastBg.height;
 
 				// absolute positioning is 0..mainWidth
-				// transform-origin positioning is aside.width..mainWidth-first.width
+				// transform-origin positioning is mainLeft..mainWidth-firstWidth
 
 				// fit to [0, 1] range
 				function normalize(n, min, max) {
@@ -201,7 +200,7 @@
 					return n * (Math.abs(max - min)) + min
 				}
 
-				const left = firstBg.left - aside.width;
+				const left = firstBg.left - main.left;
 				const absX = normalize(left, 0, main.width - firstBg.width);
 				const transformX = convert(absX, 0, main.width);
 
