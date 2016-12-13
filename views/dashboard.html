@@ -1,0 +1,75 @@
+<link rel="import" href="elts/dashboard-item.html">
+
+<style>
+	* {
+		box-sizing: border-box;
+	}
+
+	html {
+		background: #333;
+	}
+
+	body {
+		min-height: 100vh;
+		max-width: 1100px;
+		margin: 0 auto;
+		position: relative;
+	}
+
+	aside {
+		width: 200px;
+		height: 100vh;
+		position: fixed;
+		background: orange;
+		padding: 15px;
+		text-align: center;
+	}
+
+	main {
+		width: calc(100% - 200px);
+		height: 100vh;
+		position: absolute;
+		left: 200px;
+	}
+</style>
+
+<aside>
+	Aside<br><br>
+	<ul>
+		<li><a href="#" class="first">First</a></li>
+		<li><a href="#" class="second">Second</a></li>
+	</ul>
+</aside>
+<main>
+	<section class="s-first">
+		<dashboard-item image="https://wellopp.com/img/splash.jpg" name="Wellopp" description="My current job as CIO."></dashboard-item>
+		<dashboard-item image="https://wellopp.com/img/splash.jpg" name="Homeward Healthcare" description="Principal UI Engineer"></dashboard-item>
+		<dashboard-item image="https://wellopp.com/img/splash.jpg" name="Care Path Dashboard" description="Project Manager"></dashboard-item>
+		<dashboard-item image="http://www.perficient.com/-/media/images/homepage/home-big-ideas.ashx?h=669&w=1600&la=en&hash=20074F83C8647E3AB7F3C779F5680492643FAADE" name="Perficient" description="Jr. Web Engineer"></dashboard-item>
+		<dashboard-item image="http://www.perficient.com/-/media/images/homepage/home-big-ideas.ashx?h=669&w=1600&la=en&hash=20074F83C8647E3AB7F3C779F5680492643FAADE" name="Enlighten" description="Jr. Web Developer"></dashboard-item>
+	</section>
+	<section class="s-second" style="display: none;">
+		<dashboard-item image="http://www.perficient.com/-/media/images/homepage/home-big-ideas.ashx?h=669&w=1600&la=en&hash=20074F83C8647E3AB7F3C779F5680492643FAADE" name="Perficient" description="Jr. Web Engineer"></dashboard-item>
+		<dashboard-item image="https://wellopp.com/img/splash.jpg" name="Yeup" description="My current job as CIO."></dashboard-item>
+		<dashboard-item image="https://wellopp.com/img/splash.jpg" name="OK" description="Principal UI Engineer"></dashboard-item>
+		<dashboard-item image="http://www.perficient.com/-/media/images/homepage/home-big-ideas.ashx?h=669&w=1600&la=en&hash=20074F83C8647E3AB7F3C779F5680492643FAADE" name="Enlighten" description="Jr. Web Developer"></dashboard-item>
+		<dashboard-item image="https://wellopp.com/img/splash.jpg" name="Care Path Dashboard" description="Project Manager"></dashboard-item>
+	</section>
+
+	<script>
+		let sFirst = document.querySelector('.s-first');
+		let sSecond = document.querySelector('.s-second');
+
+		document.querySelector('.first').addEventListener('click', (e) => {
+			e.preventDefault();
+			sFirst.style.display = 'block';
+			sSecond.style.display = 'none';
+		});
+
+		document.querySelector('.second').addEventListener('click', (e) => {
+			e.preventDefault();
+			sFirst.style.display = 'none';
+			sSecond.style.display = 'block';
+		});
+	</script>
+</main>

@@ -10,6 +10,10 @@ server.get('/', (req, res) => {
 	res.sendFile(__dirname + '/views/index.html');
 });
 
+server.get('/dashboard', (req, res) => {
+	res.sendFile(__dirname + '/views/dashboard.html');
+});
+
 server.get('/note', (req, res) => {
 	res.sendFile(__dirname + '/views/note.html');
 });
