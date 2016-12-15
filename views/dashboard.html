@@ -1,4 +1,4 @@
-<link rel="import" href="elts/dashboard-item.html">
+<link rel="import" href="elts/dashboard-list.html">
 
 <style>
 	* {
@@ -45,20 +45,10 @@
 	</ul>
 </aside>
 <main>
-	<section class="s-first">
-		<dashboard-item image="https://wellopp.com/img/splash.jpg" name="Wellopp" description="My current job as CIO."></dashboard-item>
-		<dashboard-item image="https://wellopp.com/img/splash.jpg" name="Homeward Healthcare" description="Principal UI Engineer"></dashboard-item>
-		<dashboard-item image="https://wellopp.com/img/splash.jpg" name="Care Path Dashboard" description="Project Manager"></dashboard-item>
-		<dashboard-item image="http://www.perficient.com/-/media/images/homepage/home-big-ideas.ashx?h=669&w=1600&la=en&hash=20074F83C8647E3AB7F3C779F5680492643FAADE" name="Perficient" description="Jr. Web Engineer"></dashboard-item>
-		<dashboard-item image="http://www.perficient.com/-/media/images/homepage/home-big-ideas.ashx?h=669&w=1600&la=en&hash=20074F83C8647E3AB7F3C779F5680492643FAADE" name="Enlighten" description="Jr. Web Developer"></dashboard-item>
-	</section>
-	<section class="s-second" style="display: none;">
-		<dashboard-item image="http://www.perficient.com/-/media/images/homepage/home-big-ideas.ashx?h=669&w=1600&la=en&hash=20074F83C8647E3AB7F3C779F5680492643FAADE" name="Perficient" description="Jr. Web Engineer"></dashboard-item>
-		<dashboard-item image="https://wellopp.com/img/splash.jpg" name="Yeup" description="My current job as CIO."></dashboard-item>
-		<dashboard-item image="https://wellopp.com/img/splash.jpg" name="OK" description="Principal UI Engineer"></dashboard-item>
-		<dashboard-item image="http://www.perficient.com/-/media/images/homepage/home-big-ideas.ashx?h=669&w=1600&la=en&hash=20074F83C8647E3AB7F3C779F5680492643FAADE" name="Enlighten" description="Jr. Web Developer"></dashboard-item>
-		<dashboard-item image="https://wellopp.com/img/splash.jpg" name="Care Path Dashboard" description="Project Manager"></dashboard-item>
-	</section>
+	<dashboard-list class="s-first">
+		<dashboard-item image="https://wellopp.com/img/splash.jpg" name="Foo" description="Blah"></dashboard-item>
+	</dashboard-list>
+	<dashboard-list class="s-second" style="display: none;"></dashboard-list>
 
 	<script>
 		let sFirst = document.querySelector('.s-first');
