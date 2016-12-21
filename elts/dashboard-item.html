@@ -80,7 +80,7 @@
 					0 15px 12px rgba(0, 0, 0, 0.22);
 			}
 
-			/****** Start Animation State ******/
+			/****** Animation Start State ******/
 			.bg.animate {
 				transition: transform 0.4s cubic-bezier(0, 0, 0.3, 1);
 			}
@@ -93,8 +93,13 @@
 				transition: transform 0.6s cubic-bezier(0, 0, 0.3, 1);
 			}
 
-			/****** End Animation State ******/
+			/****** Animation End State ******/
 			:host.expanded {
+				/*
+				 * TODO: this takes elt out of document flow
+				 * would be better to spawn a new element so that elts do
+				 * not jump around on animation
+				 */
 				position: absolute;
 				top: 0;
 				left: 0;
@@ -103,6 +108,14 @@
 				margin: 0;
 				cursor: default;
 				z-index: 9;
+			}
+
+			:host.expanded .bg {
+				/*
+				 * NOTE: perf hit to animate box-shadow,
+				 * otherwise could move to .finished
+				 */
+				box-shadow: none !important;
 			}
 
 			:host.expanded .close {
@@ -119,10 +132,9 @@
 				padding: 15px 0 0;
 			}
 
-			/****** Finished Animation State ******/
+			/****** Animation Finished (cleanup) State ******/
 			.bg.finished {
 				border-radius: 0;
-				box-shadow: none !important; /* NOTE: perf hit to animate this - could move to .expanded */
 			}
 		</style>
 
@@ -147,19 +159,27 @@
 				this.bg = this.querySelector('.bg');
 				this.txt = this.querySelector('.txt');
 				this.img = this.querySelector('img');
+				// TODO: close btn
 
 				requestAnimationFrame(() => {
-					this.list = this.parentElement;
+					this.list = this.parentElement.getBoundingClientRect();
 				});
+			},
+
+			// fit to [0, 1] range
+			normalize: function(n, min, max) {
+				return Math.abs((n - min) / (max - min));
+			},
+
+			// absolute positioning is 0..listWidth
+			// transform-origin positioning is listLeft..listWidth-firstWidth
+			convert: function(n, min, max) {
+				return n * (Math.abs(max - min)) + min;
 			},
 
 			expand: function(e, obj) {
 				if(e.target.classList.contains('close')) {
-					this.classList.remove('expanded');
-					this.bg.classList.remove('finished');
-					document.body.style.overflow = 'auto';
-
-					this.isExpanded = false;
+					this.shrink();
 					return;
 				}
 
@@ -171,52 +191,43 @@
 
 				// FLIP - https://aerotwist.com/blog/flip-your-animations
 
-				// FIRST position
+				// FIRST layout
 				const firstBg = this.getBoundingClientRect();
 				const firstImg = this.img.getBoundingClientRect();
 				const firstTxt = this.txt.getBoundingClientRect();
 
-				// LAST position
+				// LAST layout
 				this.classList.add('expanded');
 				const lastBg = this.getBoundingClientRect(); // forces a sync layout
 				const lastImg = this.img.getBoundingClientRect();
 				const lastTxt = this.txt.getBoundingClientRect();
 
+				// INVERT
+				// Background
 				const scaleW = firstBg.width / lastBg.width;
 				const scaleH = firstBg.height / lastBg.height;
 
-				// absolute positioning is 0..listWidth
-				// transform-origin positioning is listLeft..listWidth-firstWidth
-
-				// fit to [0, 1] range
-				function normalize(n, min, max) {
-					return Math.abs((n - min) / (max - min));
-				}
-
-				function convert(n, min, max) {
-					return n * (Math.abs(max - min)) + min;
-				}
-
 				const left = firstBg.left - this.list.left;
-				const absX = normalize(left, 0, this.list.width - firstBg.width);
-				const transformX = convert(absX, 0, this.list.width);
+				const absX = this.normalize(left, 0, this.list.width - firstBg.width);
+				const transformX = this.convert(absX, 0, this.list.width);
 
-				const absY = normalize(firstBg.top, 0, this.list.height - firstBg.height);
-				const transformY = convert(absY, 0, this.list.height);
+				const absY = this.normalize(firstBg.top, 0, this.list.height - firstBg.height);
+				const transformY = this.convert(absY, 0, this.list.height);
 
+				this.bg.style.transformOrigin = `${transformX}px ${transformY}px`;
+				this.bg.style.transform = `scale(${scaleW}, ${scaleH})`;
+
+				// Image
 				const imgX = firstImg.left - lastImg.left;
 				const imgY = firstImg.top - lastImg.top;
 
+				this.img.style.transform = `translate(${imgX}px, ${imgY}px)`;
+
+				// Text
 				const PADDING = 10; // TODO: calc dynamically?
 
 				const txtX = firstTxt.left - lastTxt.left + PADDING;
 				const txtY = firstTxt.top - lastTxt.top - PADDING;
-
-				// INVERT
-				this.bg.style.transformOrigin = `${transformX}px ${transformY}px`;
-				this.bg.style.transform = `scale(${scaleW}, ${scaleH})`;
-
-				this.img.style.transform = `translate(${imgX}px, ${imgY}px)`;
 				this.txt.style.transform = `translate(${txtX}px, ${txtY}px)`;
 
 				// PLAY
@@ -253,7 +264,23 @@
 			},
 
 			shrink: function() {
-				// TODO
+				this.classList.remove('expanded');
+				this.img.classList.remove('animate');
+				this.txt.classList.remove('animate');
+				this.bg.classList.remove('animate', 'finished');
+				document.body.style.overflow = 'auto';
+
+				requestAnimationFrame(() => {
+					this.style.transition = '';
+					this.style.opacity = 0;
+
+					requestAnimationFrame(() => {
+						this.style.transition = 'opacity 1.3s cubic-bezier(0, 0, 0.3, 1)';
+						this.style.opacity = 1;
+					});
+				});
+
+				this.isExpanded = false;
 			}
 		});
  	</script>
