@@ -1,5 +1,5 @@
-<link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/paper-button/paper-button.html">
 
 <dom-module id="sticky-note">
 	<template>
@@ -69,11 +69,11 @@
 		</style>
 
 		<div>
-			<h1 class="title">{{title}}</h1>
+			<h1 class="title">[[title]]</h1>
 
 			<div class="button-wrap">
-				<paper-button raised>{{answerPositive}}</paper-button>
-				<paper-button raised>{{answerNegative}}</paper-button>
+				<paper-button raised>[[answerPositive]]</paper-button>
+				<paper-button raised>[[answerNegative]]</paper-button>
 			</div>
 		</div>
 	</template>
@@ -91,28 +91,31 @@
 			factoryImpl: function(note) {
 				this.id = note.id;
 				this.title = note.title;
-				this.answerPositive = (typeof(note.answerPositive) === 'undefined') ? 'Yes' : note.answerPositive;
-				this.answerNegative = (typeof(note.answerNegative) === 'undefined') ? 'No' : note.answerNegative;
+
+				// NOTE: using the default property value could not handle empty strings e.g. foo=""
+				this.setAnswerDefaults();
 			},
 
-			ready: function() {
-				// NOTE: using the default property value could not handle empty strings e.g. foo=""
+			attached: function() {
+				this.setAnswerDefaults();
+			},
+
+			setAnswerDefaults: function() {
 				this.answerPositive = (typeof(this.answerPositive) === 'undefined') ? 'Yes' : this.answerPositive;
 				this.answerNegative = (typeof(this.answerNegative) === 'undefined') ? 'No' : this.answerNegative;
 			},
 
 			listeners: {
-				'tap': 'hide'
+				'tap': 'answer'
 			},
 
-			hide: function(e, obj) {
+			answer: function(e, obj) {
 				if(e.target.tagName === 'PAPER-BUTTON') {
 					this.toggleClass('hidden');
 
 					setTimeout(() => {
-						this.remove();
-						this.fire('sticky-note-removed', this.id);
-					}, 500);
+			 			this.fire('remove-note', this.id);
+					}, 500)
 				}
 			}
 		});

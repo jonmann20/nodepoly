@@ -1,5 +1,6 @@
-<link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/paper-badge/paper-badge.html">
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/paper-badge/paper-badge.html">
+<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="sticky-notes.html">
 
 <dom-module id="note-app">
@@ -36,26 +37,28 @@
 		</style>
 		<header>
 			<nav>
-				Wellness Wall <paper-badge></paper-badge>
+				Wellness Wall <paper-badge label="[[notes.length]]"></paper-badge>
 			</nav>
 		</header>
 		<main>
-			<sticky-notes></sticky-notes>
+			<sticky-notes notes="{{notes}}"></sticky-notes>
 		</main>
+
+		<iron-ajax
+			auto
+			url="/notes.json"
+			handle-as="json"
+			last-response="{{notes}}"
+		></iron-ajax>
 	</template>
 	<script>
 		Polymer({
 			is: 'note-app',
 
-			ready: function() {
-				let paperBadge = document.querySelector('paper-badge');
-				let stickyNotes = document.querySelector('sticky-notes');
-
-				paperBadge.setAttribute('label', stickyNotes.notes.length);
-
-				stickyNotes.addEventListener('sticky-notes-changed', e => {
-					paperBadge.setAttribute('label', stickyNotes.notes.length);
-				});
+			properties: {
+				notes: {
+					type: Array
+				}
 			}
 		});
  	</script>
