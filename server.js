@@ -37,6 +37,13 @@ server.get('/notes.json', (reg, res) => {
 	]);
 });
 
+server.post('/note-response.json', (reg, res) => {
+	res.json({
+		status: 200,
+		message: 'Saved note response.'
+	})
+});
+
 // server.get('/dashboard', (req, res) => {
 // 	res.sendFile(__dirname + '/views/dashboard.html');
 // });

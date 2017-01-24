@@ -1,27 +1,6 @@
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="elts/sticky-notes.html">
-
-<notes-demo></notes-demo>
-
-<dom-module id="notes-demo">
-	<template>
-		<sticky-notes notes="{{notes}}"></sticky-notes>
-		<iron-ajax
-			auto
-			url="/notes.json"
-			handle-as="json"
-			last-response="{{notes}}"
-		></iron-ajax>
-	</template>
-
-	<script>
-		Polymer({
-			is: 'notes-demo',
-
-			properties: {
-				foo: String
-			}
-		});
-	</script>
-</dom-module>
+<sticky-notes notes='[
+	{"id": "n0", "title": "The first"},
+	{"id": "n1", "title": "Number two"},
+	{"id": "n2", "title": "A third card", "answerNegative": "nah", "answerPositive": "ok"}
+]'></sticky-notes>

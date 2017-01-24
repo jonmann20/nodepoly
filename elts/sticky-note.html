@@ -72,7 +72,7 @@
 			<h1 class="title">[[title]]</h1>
 
 			<div class="button-wrap">
-				<paper-button raised>[[answerPositive]]</paper-button>
+				<paper-button raised positive>[[answerPositive]]</paper-button>
 				<paper-button raised>[[answerNegative]]</paper-button>
 			</div>
 		</div>
@@ -114,7 +114,7 @@
 					this.toggleClass('hidden');
 
 					setTimeout(() => {
-			 			this.fire('remove-note', this.id);
+			 			this.fire('note-answered', this.id, this.hasAttribute('positive'));
 					}, 500)
 				}
 			}
