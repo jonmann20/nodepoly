@@ -1,0 +1,41 @@
+<h2>User: <span></span></h2>
+<button>Logout</button>
+
+<script>
+	const token = localStorage.getItem('wellopp-token');
+	const user = JSON.parse(localStorage.getItem('wellopp-user'));
+
+	if(!user) {
+		logout();
+	}
+
+	// Print user
+	let span = document.querySelector('span');
+	span.textContent = user ? user.first_name + ' ' + user.last_name : 'no user';
+
+	// Call clients API
+	fetch('https://dashboard.wellopp.com/api/v1/clients.json', {
+		mode: 'cors',
+		headers: new Headers({
+			Authorization: `Token token=${token}`
+		})
+	}).then(response =>
+		response.json().then(clients =>
+			clients.forEach(client => console.log(client.name))
+		)
+	);
+
+	// Handle logout
+	function logout() {
+		console.log('logging out');
+		localStorage.removeItem('wellopp-token');
+		localStorage.removeItem('wellopp-user');
+
+		setTimeout(() => {
+			location.href = '/';
+		}, 1000);
+	}
+	document.querySelector('button').addEventListener('click', () => {
+		logout();
+	});
+</script>

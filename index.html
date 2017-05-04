@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login Demo</title>
+	<meta name="viewport" content="width=device-width">
+	<script src="/bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+	<link rel="import" href="/bower_components/wellopp-login/wellopp-login.html">
+</head>
+<body>
+	<wellopp-login do-toast></wellopp-login>
+	<script>
+		let login = document.querySelector('wellopp-login');
+		login.addEventListener('logged-in', e => {
+			const token = e.detail.token;
+			const user = e.detail.user;
+			//console.log(token, user);
+		});
+
+		function logout() {
+			localStorage.removeItem('wellopp-token');
+			localStorage.removeItem('wellopp-user');
+			location.href = '/';
+		}
+	</script>
+</body>
+</html>
