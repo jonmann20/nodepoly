@@ -1,0 +1,12 @@
+{
+	"multistr": true,
+	"env": {
+		"browser": true,
+		"node": true,
+		"es6": true
+	},
+	"globals": {
+		"Polymer": true,
+		"customElements": true,
+	}
+}

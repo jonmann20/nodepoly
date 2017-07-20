@@ -1,26 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Login Demo</title>
+	<title>nodepoly - index.html</title>
 	<meta name="viewport" content="width=device-width">
-	<script src="/bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-	<link rel="import" href="/bower_components/wellopp-login/wellopp-login.html">
+	<style>
+		body {
+			margin: 0;
+		}
+	</style>
+	<link rel="import" href="wellopp-table.html">
+	<link rel="import" href="bower_components/wellopp-login/wellopp-login.html">
 </head>
 <body>
-	<wellopp-login do-toast></wellopp-login>
-	<script>
-		let login = document.querySelector('wellopp-login');
-		login.addEventListener('logged-in', e => {
-			const token = e.detail.token;
-			const user = e.detail.user;
-			//console.log(token, user);
-		});
+	<button>Logout</button>
+	<wellopp-login></wellopp-login>
 
-		function logout() {
-			localStorage.removeItem('wellopp-token');
+	<script>
+		document.querySelector('button').addEventListener('click', () => {
 			localStorage.removeItem('wellopp-user');
-			location.href = '/';
-		}
+			localStorage.removeItem('wellopp-token');
+		});
 	</script>
+
+	<!--<wellopp-table
+		items-api="/users"
+		columns='{
+			"name": "Name",
+			"client": "Client",
+			"admitted": "Admitted",
+			"surveyed": "Surveyed",
+			"mrn": "MRN",
+			"risk_score": "RiskScore"
+		}'
+		sort-info='{
+			"col": "risk_score",
+			"dir": "desc"
+		}'
+	></wellopp-table>-->
 </body>
 </html>
