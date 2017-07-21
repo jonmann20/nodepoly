@@ -8,5 +8,10 @@
 	"globals": {
 		"Polymer": true,
 		"customElements": true,
+	},
+	"rules": {
+		"no-unused-vars": ["error", {
+			"args": "after-used"
+		}]
 	}
 }

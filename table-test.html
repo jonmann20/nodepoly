@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>nodepoly - table-test.html</title>
+	<meta name="viewport" content="width=device-width">
+	<style>
+		body {
+			margin: 0;
+		}
+	</style>
+	<link rel="import" href="wellopp-table.html">
+</head>
+<body>
+
+	<wellopp-table
+		items-api="/users"
+		columns='{
+			"name": "Name",
+			"client": "Client",
+			"admitted": "Admitted",
+			"surveyed": "Surveyed",
+			"mrn": "MRN",
+			"risk_score": "RiskScore"
+		}'
+		sort-info='{
+			"col": "risk_score",
+			"dir": "desc"
+		}'
+	></wellopp-table>
+</body>
+</html>

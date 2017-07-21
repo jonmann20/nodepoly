@@ -5,37 +5,61 @@
 	<meta name="viewport" content="width=device-width">
 	<style>
 		body {
-			margin: 0;
+			margin: 25px;
+		}
+
+		vaadin-grid {
+			height: auto;
+			--divider-color: #aaa;
 		}
 	</style>
-	<link rel="import" href="wellopp-table.html">
-	<link rel="import" href="bower_components/wellopp-login/wellopp-login.html">
+	<link rel="import" href="bower_components/vaadin-grid/vaadin-grid.html">
 </head>
 <body>
-	<button>Logout</button>
-	<wellopp-login></wellopp-login>
+	<vaadin-grid>
+		<vaadin-grid-column>
+			<template class="header">Name</template>
+			<template>[[item.name]]</template>
+		</vaadin-grid-column>
+		<vaadin-grid-column>
+			<template class="header">MRN</template>
+			<template>[[item.mrn]]</template>
+		</vaadin-grid-column>
+		<vaadin-grid-column>
+			<template class="header">RiskScore</template>
+			<template>[[item.risk_score]]</template>
+		</vaadin-grid-column>
+	</vaadin-grid>
 
 	<script>
-		document.querySelector('button').addEventListener('click', () => {
-			localStorage.removeItem('wellopp-user');
-			localStorage.removeItem('wellopp-token');
-		});
-	</script>
+		let grid = document.querySelector('vaadin-grid');
+		grid.dataProvider = (params, callback) => {
+			const query = JSON.stringify({
+				query: `{
+					users {
+						name
+						mrn
+						risk_score
+					}
+				}`
+			});
 
-	<!--<wellopp-table
-		items-api="/users"
-		columns='{
-			"name": "Name",
-			"client": "Client",
-			"admitted": "Admitted",
-			"surveyed": "Surveyed",
-			"mrn": "MRN",
-			"risk_score": "RiskScore"
-		}'
-		sort-info='{
-			"col": "risk_score",
-			"dir": "desc"
-		}'
-	></wellopp-table>-->
+			fetch('/graphql', {
+				method: 'POST',
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: query
+			}).then(response => {
+				return response.json();
+			}).then(result => {
+				const users = result.data.users;
+				//console.log(users);
+				grid.size = users.length;
+				callback(users);
+			});
+		};
+	</script>
 </body>
 </html>

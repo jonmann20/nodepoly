@@ -1,46 +1,50 @@
 'use strict';
 
 const express = require('express');
+const graphqlExpress = require('apollo-server-express').graphqlExpress;
+const graphiqlExpress = require('apollo-server-express').graphiqlExpress;
+const makeExecutableSchema = require('graphql-tools').makeExecutableSchema;
+const bodyParser = require('body-parser');
 const server = express();
 
-let users = [
+const users = [
 	{
 		name: 'Zackary Kelsolitonomo, Jr.',
 		client: 'Demo',
-		admitted: 'Jan 7, 2017 at 8:15am',
-		surveyed: 'Jan 7, 2017 at 4:15am',
+		admitted_at: 'Jan 7, 2017 at 8:15am',
+		surveyed_at: 'Jan 7, 2017 at 4:15am',
 		mrn: '423489070',
 		risk_score: 'High'
 	},
 	{
 		name: 'Joe Kerry',
 		client: 'Remedy Partners, LLC',
-		admitted: 'Jan 7, 2017 at 9:15am',
-		surveyed: 'Jan 7, 2017 at 1:15am',
+		admitted_at: 'Jan 7, 2017 at 9:15am',
+		surveyed_at: 'Jan 7, 2017 at 1:15am',
 		mrn: '13489370',
 		risk_score: 'Medium'
 	},
 	{
 		name: 'Billy Pharo',
 		client: 'ProMedica',
-		admitted: 'Jan 7, 2017 at 2:15am',
-		surveyed: 'Jan 7, 2017 at 7:15am',
+		admitted_at: 'Jan 7, 2017 at 2:15am',
+		surveyed_at: 'Jan 7, 2017 at 7:15am',
 		mrn: '93488870',
 		risk_score: 'Low'
 	},
 	{
 		name: 'Aaron Pharo',
 		client: 'Beaumont',
-		admitted: 'Jan 7, 2017 at 1:15am',
-		surveyed: 'Jan 7, 2017 at 2:15am',
+		admitted_at: 'Jan 7, 2017 at 1:15am',
+		surveyed_at: 'Jan 7, 2017 at 2:15am',
 		mrn: '83488870',
 		risk_score: 'Medium'
 	},
 	{
 		name: 'Carla Pharo',
 		client: 'Mammoth',
-		admitted: 'Jan 7, 2017 at 2:15am',
-		surveyed: 'Jan 7, 2017 at 9:15am',
+		admitted_at: 'Jan 7, 2017 at 2:15am',
+		surveyed_at: 'Jan 7, 2017 at 9:15am',
 		mrn: '73488870',
 		risk_score: 'Low'
 	}
@@ -48,56 +52,36 @@ let users = [
 
 server.use(express.static(__dirname + '/'));
 
-server.get('/', (req, res) => {
-	res.sendFile(__dirname + '/index.html');
+const myGraphQLSchema = makeExecutableSchema({
+	typeDefs: `
+		type User {
+			name: String!
+			client: String!
+			admitted_at: String!
+			surveyed_at: String!
+			mrn: String!
+			risk_score: String!
+		}
+
+		type Query {
+			users: [User]
+		}
+	`,
+	resolvers: {
+		Query: {
+			users: () => users
+		}
+	}
 });
 
-server.get('/users', (req, res) => {
-	let col = req.query.col || 'risk_score';
-	let dir = req.query.dir || 'desc';
-	let sortedUsers = Array.from(users);
+server.use('/graphql', bodyParser.json(), graphqlExpress({
+	schema: myGraphQLSchema
+}));
 
-	switch(col) {
-		case 'name':
-		case 'mrn':
-		case 'client':
-		case 'surveyed':
-		case 'admitted':
-			sortedUsers.sort((a, b) => {
-				if(dir === 'desc') {
-					let c = a;
-					a = b;
-					b = c;
-				}
+server.use('/graphiql', graphiqlExpress({endpointURL: '/graphql'}));
 
-				return a[col].localeCompare(b[col]);
-			});
-			break;
-		case 'risk_score':
-			sortedUsers.sort((a, b) => {
-				if(dir === 'desc') {
-					let c = a;
-					a = b;
-					b = c;
-				}
-
-				function getNum(str) {
-					switch(str) {
-						case 'Low': return 1;
-						case 'Medium': return 2;
-						case 'High': return 3;
-					}
-				}
-
-				let aNum = getNum(a.risk_score);
-				let bNum = getNum(b.risk_score);
-
-				return aNum > bNum;
-			});
-			break;
-	}
-
-	res.json(sortedUsers);
+server.get('/', (req, res) => {
+	res.sendFile(__dirname + '/index.html');
 });
 
 const port = process.env.PORT || 3000;
