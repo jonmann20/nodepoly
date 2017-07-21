@@ -22,10 +22,6 @@
 			<template>[[item.name]]</template>
 		</vaadin-grid-column>
 		<vaadin-grid-column>
-			<template class="header">MRN</template>
-			<template>[[item.mrn]]</template>
-		</vaadin-grid-column>
-		<vaadin-grid-column>
 			<template class="header">RiskScore</template>
 			<template>[[item.risk_score]]</template>
 		</vaadin-grid-column>
@@ -34,26 +30,22 @@
 	<script>
 		let grid = document.querySelector('vaadin-grid');
 		grid.dataProvider = (params, callback) => {
-			const query = JSON.stringify({
-				query: `{
-					users {
-						name
-						mrn
-						risk_score
-					}
-				}`
-			});
-
 			fetch('/graphql', {
 				method: 'POST',
 				headers: {
-					Accept: 'application/json',
 					'Content-Type': 'application/json'
 				},
-				body: query
-			}).then(response => {
-				return response.json();
-			}).then(result => {
+				body: JSON.stringify({
+					query: `{
+						users {
+							name
+							risk_score
+						}
+					}`
+				})
+			})
+			.then(response => response.json())
+			.then(result => {
 				const users = result.data.users;
 				//console.log(users);
 				grid.size = users.length;
