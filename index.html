@@ -4,54 +4,18 @@
 	<title>nodepoly - index.html</title>
 	<meta name="viewport" content="width=device-width">
 	<style>
-		body {
-			margin: 25px;
-		}
-
-		vaadin-grid {
-			height: auto;
-			--divider-color: #aaa;
-		}
 	</style>
-	<link rel="import" href="bower_components/vaadin-grid/vaadin-grid.html">
 </head>
 <body>
-	<vaadin-grid>
-		<vaadin-grid-column>
-			<template class="header">Name</template>
-			<template>[[item.name]]</template>
-		</vaadin-grid-column>
-		<vaadin-grid-column>
-			<template class="header">RiskScore</template>
-			<template>[[item.risk_score]]</template>
-		</vaadin-grid-column>
-	</vaadin-grid>
+	<script type="module">
+		import {Car, Unicycle} from './vehicle.js';
 
-	<script>
-		let grid = document.querySelector('vaadin-grid');
-		grid.dataProvider = (params, callback) => {
-			fetch('/graphql', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					query: `{
-						users {
-							name
-							risk_score
-						}
-					}`
-				})
-			})
-			.then(response => response.json())
-			.then(result => {
-				const users = result.data.users;
-				//console.log(users);
-				grid.size = users.length;
-				callback(users);
-			});
-		};
+		let car = Car();
+		car.wheels[2].inflate();
+		car.printTires();
+
+		let unicycle = Unicycle();
+		console.log(unicycle.checkTirePressure());
 	</script>
 </body>
 </html>
