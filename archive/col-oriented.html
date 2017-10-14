@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>nodepoly - index.html</title>
+	<meta name="viewport" content="width=device-width">
+	<style>
+		div {
+			/*border: 1px solid #ccc;*/
+		}
+
+		.table {
+			display: flex;
+			overflow-y: auto;
+		}
+
+		.col {
+			flex-grow: 0;
+        	white-space: nowrap;
+		}
+
+		.row {
+			flex-wrap: nowrap;
+		}
+
+		.row:hover,
+		.row.hover {
+			background: red;
+		}
+	</style>
+</head>
+<body>
+	<div class="table">
+		<!-- Name -->
+		<div class="col">
+			<div class="row" data-id="1">Ferris Bueller Bob</div>
+			<div class="row" data-id="2">Bill Jones</div>
+			<div class="row" data-id="3">Bob Fat</div>
+			<div class="row" data-id="4">Eric Holmes</div>
+		</div>
+
+		<!-- MRN -->
+		<div class="col">
+			<div class="row" data-id="1">234</div>
+			<div class="row" data-id="2">23948098</div>
+			<div class="row" data-id="3">2390</div>
+			<div class="row" data-id="4">22</div>
+		</div>
+
+		<!-- Client -->
+		<div class="col">
+			<div class="row" data-id="1">Beaumont</div>
+			<div class="row" data-id="2">Henry Ford</div>
+			<div class="row" data-id="3">Hurley Medical Center</div>
+			<div class="row" data-id="4">ProMedica</div>
+		</div>
+	</div>
+
+	<script>
+		let table = document.querySelector('.table');
+
+		table.addEventListener('click', e => {
+			if(e.target.classList.contains('row')) {
+				alert(e.target.dataset.id);
+			}
+		});
+
+		table.addEventListener('mouseover', e => {
+			if(e.target.classList.contains('row')) {
+				let otherCellsInRow = Array.from(document.querySelectorAll(`.row[data-id="${e.target.dataset.id}"]`));
+				otherCellsInRow.forEach(cell => {
+					cell.classList.add('hover');
+				});
+			}
+		});
+
+		table.addEventListener('mouseout', e => {
+			if(e.target.classList.contains('row')) {
+				let otherCellsInRow = Array.from(document.querySelectorAll(`.row[data-id="${e.target.dataset.id}"]`));
+				otherCellsInRow.forEach(cell => {
+					cell.classList.remove('hover');
+				});
+			}
+		});
+	</script>
+</body>
+</html>

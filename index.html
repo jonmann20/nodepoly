@@ -4,18 +4,154 @@
 	<title>nodepoly - index.html</title>
 	<meta name="viewport" content="width=device-width">
 	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+		html,
+		body {
+			height: 100%;
+		}
+
+		body {
+			--nav-height: 58px;
+			--aside-width: 175px;
+
+			font-family: sans-serif;
+			background: #141a1e;
+			margin: 0;
+		}
+
+		nav {
+			position: fixed;
+			width: 100%;
+			z-index: 3;
+			background: #444;
+			color: #ddd;
+			padding: 20px;
+		}
+
+		nav span {
+			margin: 0 15px;
+		}
+
+		aside {
+			position: fixed;
+			width: var(--aside-width);
+			padding-top: var(--nav-height);
+			padding-left: 15px;
+			background: #666;
+			color: #ccc;
+			height: 100%;
+		}
+
+		main {
+			padding-left: calc(var(--aside-width));
+			padding-top: var(--nav-height);
+			height: 100vh;
+		}
+
+		main h1 {
+			padding-left: 15px;
+		}
+
+		gel-grid {
+			display: none;
+			--gel-offset-top: calc(var(--nav-height));
+			--gel-offset-left: var(--aside-width);
+		}
+
+		/* tablet */
+		@media (max-width: 1024px) {
+			gel-grid {
+				--gel-item-width: 275px !important;
+				--gel-item-height: 225px !important;
+			}
+		}
+
+		@media (max-width: 824px) {
+			body {
+				--aside-width: 0;
+			}
+
+			aside {
+				display: none;
+			}
+		}
 	</style>
+
+	<link rel="import" href="gel/gel-grid.html"></script>
+	<link rel="import" href="gel/gel-item.html"></script>
 </head>
 <body>
-	<script type="module">
-		import {Car, Unicycle} from './vehicle.js';
+	<nav>
+		<span>Home</span>
+		<span>About</span>
+	</nav>
+	<aside>
+		<p>Article #1</p>
+		<p>Article #2</p>
+		<p>Article #3</p>
+	</aside>
+	<main>
+		<gel-grid>
+			<gel-item>
+				<header><span>Blood Cell Brigade</span></header>
+				<img src="http://jonw.me/img/blood-cell-brigade-title.jpg">
+				<div>
+					Created for the Intel Code for Good Game Jam in 40 hours.<br>
+					<img src="http://jonw.me/img/blood-cell-brigade-title.jpg">
 
-		let car = Car();
-		car.wheels[2].inflate();
-		car.printTires();
+					<h4>Tech used in making the game:</h4>
+					<ul>
+						<li>Unity — A game development engine.</li>
+						<li>C#</li>
+					</ul>
 
-		let unicycle = Unicycle();
-		console.log(unicycle.checkTirePressure());
-	</script>
+					<button>Play Game</button>
+					<button>Source Code</button>
+				</div>
+			</gel-item>
+			<gel-item>
+				<header><span>Defend Thy Kingdom</span></header>
+			</gel-item>
+			<gel-item>
+				<header><span>The Legend of Zelda: Reservanted</span></header>
+			</gel-item>
+			<gel-item>
+				<header><span>Divide & Conquer</span></header>
+				<img src="http://jonw.me/img/game-jam14.jpg">
+			</gel-item>
+			<gel-item>
+				<header><span>Deflection</span></header>
+			</gel-item>
+			<gel-item>
+				<header><span>Unlit</span></header>
+			</gel-item>
+			<gel-item>
+				<header><span>Tiger Woods</span></header>
+			</gel-item>
+			<gel-item>
+				<header><span>Uneven</span></header>
+			</gel-item>
+			<gel-item>
+				<header><span>Jon's Quest</span></header>
+			</gel-item>
+			<gel-item>
+				<header><span>Dungeon</span></header>
+			</gel-item>
+			<gel-item>
+				<header><span>Dormanticide</span></header>
+			</gel-item>
+			<gel-item>
+				<header><span>Vamp: The Great and Powerful</span></header>
+			</gel-item>
+			<gel-item>
+				<header><span>Ray2d</span></header>
+			</gel-item>
+		</gel-grid>
+	</main>
+
+	<script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
 </body>
 </html>

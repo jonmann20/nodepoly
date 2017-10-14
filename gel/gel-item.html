@@ -1,0 +1,176 @@
+<style>
+	gel-item {
+		--duration: 0.65s;
+		--bezier: cubic-bezier(0, 0, 0.3, 1);
+		--transition-props: var(--duration) var(--bezier);
+
+		position: relative;
+		z-index: 0;
+		margin: var(--gel-item-margin);
+		white-space: nowrap;
+		width: var(--gel-item-width);
+		height: var(--gel-item-height);
+		box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.3);
+		cursor: pointer;
+		background: #373f44;
+		color: #eaeaea;
+		border-radius: 2px;
+		transition:
+			height var(--duration) var(--bezier),
+			left var(--duration) var(--bezier),
+			width var(--duration) var(--bezier),
+			margin var(--duration) var(--bezier),
+			top var(--duration) var(--bezier);
+
+		/*border: 5px solid red;*/
+	}
+
+	gel-item.expanding,
+	gel-item.expanded,
+	gel-item.shrinking {
+		position: absolute;
+		box-shadow: none;
+		border-radius: 0;
+	}
+
+	gel-item.expanding,
+	gel-item.expanded {
+		z-index: 2;
+		width: 100%;
+		height: 100%;
+		left: 0 !important;
+		margin: 0;
+	}
+
+	gel-item.shrinking {
+		z-index: 1;
+	}
+
+	gel-item > img {
+		--top: 50px;
+		position: absolute;
+		top: var(--top);
+		left: 0;
+		width: var(--gel-item-width);
+		height: calc(var(--gel-item-height) - var(--top));
+	}
+
+	gel-item.expanding > img,
+	gel-item.expanded > img,
+	gel-item.shrinking > img {
+		display: none;
+	}
+
+	gel-item header {
+		z-index: 1;
+		display: inline-block;
+		position: relative;
+		left: 50%;
+		transition: left 0.9s var(--bezier);
+	}
+
+	gel-item header span {
+		display: inline-block;
+		padding: var(--gel-item-padding);
+		position: relative;
+		left: -50%;
+		transition: left 0.9s var(--bezier);
+	}
+
+	gel-item.expanding header,
+	gel-item.expanded header,
+	gel-item.expanding header span,
+	gel-item.expanded header span {
+		left: 0;
+	}
+
+	gel-item div {
+		display: none;
+	}
+
+	gel-item.expanded div {
+		display: block;
+	}
+</style>
+<script>
+	customElements.define('gel-item', class extends HTMLElement {
+		connectedCallback() {
+			this._id = Array.prototype.indexOf.call(this.parentElement.children, this);
+
+			//const w = this.querySelector('header').offsetWidth;
+			//this.style.setProperty('--header-left', `calc(50% - ${w / 2}px`);
+			//this.style.setProperty('--margin-left', `${-w / 2}px`);
+
+			const styles = window.getComputedStyle(this);
+			const property = styles.getPropertyValue('--gel-item-margin');
+			this._margin = parseInt(property.substr(1, 2), 10);
+
+			this.addEventListener('click', () => this._onClick());
+
+			this._numProps = 9; // height, width, margin-bottom, margin-left, margin-right, margin-top, left, top, header left
+			if(this.offsetTop === this._margin) {
+				// top will not be animated
+				--this._numProps;
+			}
+
+			if(this.offsetLeft === this._margin) {
+				// left will not be animated
+				--this._numProps;
+			}
+
+			this._expandingPropsCount = 0;
+			this._shrinkingPropsCount = 0;
+
+			this.addEventListener('transitionend', e => this._onTransitionEnd(e));
+		}
+
+		_onClick() {
+			if(this.classList.contains('expanding') || this.classList.contains('shrinking')) {
+				return;
+			}
+
+			if(this.classList.contains('expanded')) {
+				this.classList.remove('expanded');
+				this.style = `
+					top: ${this.dataset.top}px;
+					left: ${this.dataset.left}px;
+				`;
+				this.classList.add('shrinking');
+				this.parentElement.classList.remove('expanded');
+			}
+			else {
+				let clone = this.cloneNode(true);
+				clone.dataset.top = this.offsetTop - this._margin;
+				clone.dataset.left = this.offsetLeft - this._margin;
+				clone.style = `
+					position: absolute;
+					top: ${clone.dataset.top}px;
+					left: ${clone.dataset.left}px;
+				`;
+
+				this.parentElement.appendChild(clone);
+				requestAnimationFrame(() => {
+					clone.style = `
+						top: ${this.parentElement.scrollTop}px;
+						left: ${this.offsetLeft - this._margin}px;
+					`;
+					clone.classList.add('expanding');
+					this.parentElement.classList.add('expanded');
+				});
+			}
+		}
+
+		_onTransitionEnd(e) {
+			//console.log(this._id, this.className, e.propertyName);
+
+			if(this.classList.contains('expanding') && ++this._expandingPropsCount === this._numProps) {
+				this.classList.remove('expanding');
+				this.classList.add('expanded');
+				this._expandingPropsCount = 0;
+			}
+			else if(this.classList.contains('shrinking') && ++this._shrinkingPropsCount === this._numProps) {
+				this.parentElement.removeChild(this);
+			}
+		}
+	});
+</script>
