@@ -102,6 +102,11 @@ server.get('/', (req, res) => {
 	res.sendFile(__dirname + '/index.html');
 });
 
+server.get('/foo', (req, res) => {
+	res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify({a: 1}));
+});
+
 const port = process.env.PORT || 3000;
 console.log(`using port ${port}`);
 server.listen(port);
