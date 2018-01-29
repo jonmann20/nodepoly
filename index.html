@@ -6,36 +6,9 @@
 	<style></style>
 </head>
 <body>
-	<component-a></component-a>
-	<component-b></component-b>
-
-	<script>
-		if(window.fetch) {
-			var refScript = document.getElementsByTagName('script')[0];
-			var script = document.createElement('script');
-			script.src = '/bower_components/webcomponentsjs/custom-elements-es5-adapter.js';
-			refScript.parentNode.insertBefore(script, refScript);
-		}
-
-		document.addEventListener('WebComponentsReady', function webcomponentsready() {
-			document.removeEventListener('WebComponentsReady', webcomponentsready, false);
-
-			var refScript = document.getElementsByTagName('script')[0];
-			var script = document.createElement('script');
-			script.src = '/dist/component-globals.bundle.js';
-			refScript.parentNode.insertBefore(script, refScript);
-
-			setTimeout(function() {
-				script = document.createElement('script');
-				script.src = '/dist/component-a.bundle.js';
-				refScript.parentNode.insertBefore(script, refScript);
-
-				script = document.createElement('script');
-				script.src = '/dist/component-b.bundle.js';
-				refScript.parentNode.insertBefore(script, refScript);
-			}, 1200);
-		}, false);
-	</script>
-	<script src="/bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+	<foo-bar>
+		Loading...
+	</foo-bar>
+	<script type="module" src="components/foo-bar/foo-bar.js"></script>
 </body>
 </html>
