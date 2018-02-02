@@ -1,7 +1,3 @@
+.c9
 node_modules
 bower_components
-
-# Avoid publishing public x-oauth-basic token
-bower.json
-
-.c9

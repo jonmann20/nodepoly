@@ -1,0 +1,38 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+
+<dom-module id="foo-bar">
+	<script>
+		'use strict';
+
+		class FooBar extends Polymer.Element {
+			static get is() {
+				return 'foo-bar';
+			}
+
+			static get template() {
+				return Polymer.html`
+					<h1>[[name]]</h1>
+					<iron-icon icon="icons:explore"></iron-icon>
+				`;
+			}
+
+			static get properties() {
+				return {
+					name: {
+						type: String,
+						value: 'FooBar'
+					}
+				}
+			}
+
+			connectedCallback() {
+				super.connectedCallback();
+				console.log('hi');
+			}
+		}
+
+		customElements.define(FooBar.is, FooBar);
+	</script>
+</dom-module>
