@@ -3,11 +3,35 @@
 <head>
 	<title>nodepoly - index.html</title>
 	<meta name="viewport" content="width=device-width">
-	<link rel="import" href="components/foo-bar/foo-bar.html">
+	<script>
+		const _define = customElements.define;
+		let registered = [];
+		customElements.define = function(componentName, componentClass) {
+			if(registered.includes(componentName)) {
+				console.log(`Trying to register ${componentName} more than once`);
+			}
+
+			registered.push(componentName);
+			_define.call(componentName, componentClass);
+		}
+
+		document.addEventListener('WebComponentsReady', function webcomponentsready() {
+			document.removeEventListener('WebComponentsReady', webcomponentsready, false);
+			var refScript = document.getElementsByTagName('script')[0];
+			var script = document.createElement('script');
+			script.src = 'polymer_assets/foo-bar.bundle.js';
+			refScript.parentNode.insertBefore(script, refScript);
+
+			var refScript = document.getElementsByTagName('script')[0];
+			var script = document.createElement('script');
+			script.src = 'polymer_assets/foo-bar-two.bundle.js';
+			refScript.parentNode.insertBefore(script, refScript);
+		}, false);
+	</script>
+	<script src="/bower_components/webcomponentsjs/webcomponents-loader.js"></script>
 </head>
 <body>
-	<foo-bar>
-		Loading...
-	</foo-bar>
+	<foo-bar></foo-bar>
+	<foo-bar-two></foo-bar-two>
 </body>
 </html>

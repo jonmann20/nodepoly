@@ -1,0 +1,29 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+
+<dom-module id="foo-bar-two">
+	<script>
+		'use strict';
+
+		class FooBarTwo extends Polymer.Element {
+			static get template() {
+				return `
+					<h1>[[name]]</h1>
+					<iron-icon icon="icons:explore"></iron-icon>
+				`;
+			}
+
+			static get properties() {
+				return {
+					name: {
+						type: String,
+						value: 'FooBarTwo'
+					}
+				}
+			}
+		}
+
+		customElements.define('foo-bar-two', FooBarTwo);
+	</script>
+</dom-module>
