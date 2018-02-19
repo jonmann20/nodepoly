@@ -3,18 +3,8 @@
 <head>
 	<title>nodepoly - index.html</title>
 	<meta name="viewport" content="width=device-width">
+	<script src="dedup-custom-elements.js"></script>
 	<script>
-		const _define = customElements.define;
-		let registered = [];
-		customElements.define = function(componentName, componentClass) {
-			if(registered.includes(componentName)) {
-				console.log(`Trying to register ${componentName} more than once`);
-			}
-
-			registered.push(componentName);
-			_define.call(componentName, componentClass);
-		}
-
 		document.addEventListener('WebComponentsReady', function webcomponentsready() {
 			document.removeEventListener('WebComponentsReady', webcomponentsready, false);
 			var refScript = document.getElementsByTagName('script')[0];
