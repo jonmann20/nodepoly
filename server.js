@@ -3,11 +3,11 @@
 const express = require('express');
 const server = express();
 
-server.use(express.static(__dirname + '/'));
+const transformBareModules = require('express-transform-bare-module-specifiers').default;
+server.use('*', transformBareModules());
 
-server.get('/', (req, res) => {
-	res.sendFile(__dirname + '/index.html');
-});
+server.use(express.static(`${__dirname}/`));
+server.get('/', (_, res) => res.sendFile(`${__dirname}/index.html`));
 
 /*
  * fetch('/user')

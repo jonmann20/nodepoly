@@ -1,18 +1,18 @@
 {
 	"dependencies": {
-		"@polymer/iron-icon": "^3.0.0-pre.10",
-		"@polymer/iron-icons": "^3.0.0-pre.10",
-		"@polymer/iron-image": "^3.0.0-pre.10",
-		"@polymer/paper-button": "^3.0.0-pre.10",
-		"@polymer/paper-input": "^3.0.0-pre.10",
-		"@polymer/polymer": "^3.0.0-pre.10",
-		"express": "^4.16.2",
-		"lit-element": "^0.4.4",
-		"lit-html": "^0.9.0",
-		"nodemon": "^1.17.1",
-		"polymer-webpack-loader": "^2.0.1",
-		"webpack": "^4.1.0",
-		"webpack-cli": "^2.0.10"
+		"@polymer/iron-icon": "^3.0.1",
+		"@polymer/iron-icons": "^3.0.1",
+		"@polymer/iron-image": "^3.0.1",
+		"@polymer/lit-element": "^0.6.5",
+		"@polymer/paper-button": "^3.0.1",
+		"@polymer/paper-input": "^3.0.1",
+		"@polymer/polymer": "^3.1.0",
+		"express": "^4.16.4",
+		"express-transform-bare-module-specifiers": "~1.0.2",
+		"nodemon": "^1.18.9",
+		"polymer-webpack-loader": "^2.0.3",
+		"webpack": "^4.17.1",
+		"webpack-cli": "^3.1.2"
 	},
 	"private": true
 }
