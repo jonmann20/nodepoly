@@ -3,16 +3,16 @@
 		"@polymer/iron-icon": "^3.0.1",
 		"@polymer/iron-icons": "^3.0.1",
 		"@polymer/iron-image": "^3.0.1",
-		"@polymer/lit-element": "^0.6.5",
 		"@polymer/paper-button": "^3.0.1",
 		"@polymer/paper-input": "^3.0.1",
 		"@polymer/polymer": "^3.1.0",
 		"express": "^4.16.4",
-		"express-transform-bare-module-specifiers": "~1.0.2",
+		"express-transform-bare-module-specifiers": "^1.0.2",
+		"lit-element": "^2.0.0-rc.2",
 		"nodemon": "^1.18.9",
 		"polymer-webpack-loader": "^2.0.3",
-		"webpack": "^4.17.1",
-		"webpack-cli": "^3.1.2"
+		"webpack": "^4.28.4",
+		"webpack-cli": "^3.2.1"
 	},
 	"private": true
 }
